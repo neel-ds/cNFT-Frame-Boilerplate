@@ -8,7 +8,7 @@ You must have a Solana wallet address to interact with this frame. Check out how
 Follow the instructions for the local environment: The user must have Node.js and pnpm to run this platform. Just download Node.js from [here](https://nodejs.org/en/download/).
 
 ### Underdog Protocol API Setup
-Create an account at [Underdog Protocol](http://app.underdogprotocol.com/)  and get your `API Key` from the developer dashboard.
+Create an account at [Underdog Protocol](https://app.underdogprotocol.com/)  and get your `API Key` from the developer dashboard.
 
 1. Create a project on [devnet](https://app.underdogprotocol.com/projects?network=DEVNET&page=1) or [mainnet](https://app.underdogprotocol.com/projects?network=MAINNET&page=1)
 
