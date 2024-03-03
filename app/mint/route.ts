@@ -120,7 +120,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           {
             label: "View your cNFT",
             action: "link",
-            target: `https://solscan.io/account/${address}?cluster=devnet#portfolio`,
+            target: `https://xray.helius.xyz/account/${address}/assets?network=devnet`,
           },
         ],
         image: `${process.env.HOST_URL}/success.png`,
