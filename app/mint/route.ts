@@ -14,6 +14,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     token: process.env.REDIS_KEY!,
   });
   const nftId = (await redis.get("nftId")) as number;
+  const mintedAddress = (await redis.get("mintedAddress")) as string[];
   const body: FrameRequest = await req.json();
   const { isValid, message } = await getFrameMessage(body, {
     neynarApiKey: "NEYNAR_ONCHAIN_KIT",
@@ -42,7 +43,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   }
 
   // Check if all the cNFTs are claimed
-  if (nftId === 200) {
+  if (nftId === 1000) {
     return new NextResponse(
       getFrameHtmlResponse({
         ogTitle: "Sold out",
@@ -74,6 +75,24 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           },
         ],
         image: `${process.env.HOST_URL}/not-found.png`,
+      })
+    );
+  }
+
+  // Check if the user has already minted a cNFT
+  const isMinted = mintedAddress.includes(address);
+  if (isMinted) {
+    return new NextResponse(
+      getFrameHtmlResponse({
+        ogTitle: "Already minted",
+        buttons: [
+          {
+            label: "View your cNFT",
+            action: "link",
+            target: `https://xray.helius.xyz/account/${address}/assets?network=devnet`,
+          },
+        ],
+        image: `${process.env.HOST_URL}/minted.png`,
       })
     );
   }
@@ -113,6 +132,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     );
   } else {
     await redis.set("nftId", nftId + 1);
+    await redis.set("mintedAddress", [...mintedAddress, address]);
     return new NextResponse(
       getFrameHtmlResponse({
         ogTitle: "Minted",
